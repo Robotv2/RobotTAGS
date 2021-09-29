@@ -1,0 +1,6 @@
+default-tag:
+  enabled: false
+  tag: default
+
+storage:
+  mode: YML

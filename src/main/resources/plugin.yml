@@ -1,0 +1,7 @@
+name: RobotTags
+version: '${project.version}'
+main: fr.robot.robottags.Main
+api-version: 1.16
+softdepend: [ PlaceholderAPI ]
+authors: [ Robotv2 ]
+description: A tag plugin supporting HEX color format with a GUI system, and supporting MySQL
