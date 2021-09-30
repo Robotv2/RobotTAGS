@@ -20,8 +20,9 @@ public class StorageManager {
         if(mode == DBMODE.MYSQL) {
             try {
                 MysqlManager.connect();
+                MysqlManager.createTable();
             } catch (ClassNotFoundException | SQLException e) {
-                e.printStackTrace();
+                setMode(DBMODE.YML);
             }
         }
     }

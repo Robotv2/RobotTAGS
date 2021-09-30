@@ -2,7 +2,6 @@ package fr.robot.robottags.manager;
 
 import fr.robot.robottags.manager.StorageManager.DBMODE;
 import fr.robot.robottags.object.Tag;
-import joptsimple.internal.Strings;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -12,16 +11,12 @@ public class PlayerManager {
 
     public static HashMap<UUID, String> playerTags = new HashMap<>();
 
-    public static DBMODE mode;
-
     public static boolean ENABLED_DEFAULT_TAG = false;
     public static String DEFAULT_TAG = "default";
 
     public static void init() {
         ENABLED_DEFAULT_TAG = ConfigManager.getConfig().get().getBoolean("default-tag.enabled");
         DEFAULT_TAG = ConfigManager.getConfig().get().getString("default-tag.tag");
-
-        mode = StorageManager.getMode();
     }
 
     public static boolean hasTag(Player player) {
@@ -29,11 +24,11 @@ public class PlayerManager {
     }
 
     public static boolean hasTag(UUID playerUUID) {
-        switch(mode) {
+        switch(StorageManager.getMode()) {
             case YML:
                 return ConfigManager.getDatabase().get().get(playerUUID.toString()) != null;
             case MYSQL:
-                return MysqlManager.exists(playerUUID);
+                return MysqlManager.SQLgettag(playerUUID) != null;
         }
         return false;
     }
@@ -45,7 +40,7 @@ public class PlayerManager {
     public static void load(UUID playerUUID) {
         String tagID = null;
         if(hasTag(playerUUID)) {
-            switch (mode) {
+            switch (StorageManager.getMode()) {
                 case YML:
                     tagID = ConfigManager.getDatabase().get().getString(playerUUID.toString());
                     break;
@@ -69,10 +64,9 @@ public class PlayerManager {
         switch (StorageManager.getMode()) {
             case YML:
                 ConfigManager.getDatabase().get().set(playerUUID.toString(), tagID);
-                ConfigManager.getDatabase().save();
                 break;
             case MYSQL:
-                MysqlManager.SQLgettag(playerUUID);
+                MysqlManager.SQLsettag(playerUUID, tagID);
                 break;
         }
     }

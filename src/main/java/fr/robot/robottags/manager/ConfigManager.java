@@ -2,7 +2,6 @@ package fr.robot.robottags.manager;
 
 import fr.robot.robottags.utility.config.Config;
 import fr.robot.robottags.utility.config.ConfigAPI;
-import org.bukkit.Bukkit;
 
 public class ConfigManager {
 
@@ -32,7 +31,11 @@ public class ConfigManager {
         return databaseYML;
     }
 
-    public static Config getConfig() { return configYML; }
+    public static Config getConfig() {
+        return configYML;
+    }
 
-    public static Config getMysqlConfig() { return mysqlConfig; }
+    public static Config getMysqlConfig() {
+        return mysqlConfig;
+    }
 }
