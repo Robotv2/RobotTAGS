@@ -1,0 +1,40 @@
+tags:
+  my-tag:
+    display: "&c&lTAGS"
+    use-hex-color: false
+    need-permission: true
+    permission: robottags.tag.mytag
+    #GUI-ONLY
+    slot: 23
+    page: 1
+    material: book
+    lore:
+      - "&8"
+      - "&7The first tag !"
+      - "&8"
+  hex-colored:
+    display: "<SOLID:89a2c9>COOL RGB TAG"
+    use-hex-color: true
+    need-permission: true
+    permission: robottags.tag.hexcolored
+    #GUI-ONLY
+    slot: 24
+    page: 1
+    material: book
+    lore:
+      - "&8"
+      - "&7Wahou hex color !"
+      - "&8"
+  gradient-colored:
+    display: "<GRADIENT:2C08BA>GRADIENT</GRADIENT:028A97>"
+    use-hex-color: true
+    need-permission: true
+    permission: robottags.tag.gradient
+    #GUI-ONLY
+    slot: 25
+    page: 1
+    material: book
+    lore:
+      - "&8"
+      - "&7Wahou gradient tag !"
+      - "&8"

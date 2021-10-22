@@ -1,10 +1,10 @@
 package fr.robot.robottags.manager;
 
 import fr.robot.robottags.object.Tag;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class TagManager {
 
@@ -12,11 +12,17 @@ public class TagManager {
     private static HashMap<String, Tag> tags;
 
     public static void init() {
-        IDs = ConfigManager.getTagConfig().get().getConfigurationSection("tags").getKeys(false);
+        ConfigurationSection section = ConfigManager.getTagConfig().get().getConfigurationSection("tags");
+        if(section != null)
+            IDs = section.getKeys(false);
         tags = new HashMap<>();
-        getTagIds()
-                .stream().filter(TagManager::exist)
-                .forEach(tagID -> tags.put(tagID, getTag(tagID)));
+        getTagIds().forEach(tagID -> tags.put(tagID, getTag(tagID)));
+    }
+
+    public static boolean hasAccessTo(Player player, Tag tag) {
+        if(!exist(tag.getID())) return false;
+        if(!tag.needPermission()) return true;
+        return player.hasPermission(tag.getPermission());
     }
 
     public static boolean exist(String ID) {
@@ -32,5 +38,13 @@ public class TagManager {
         if(tag == null && exist(ID))
             tag = new Tag(ID);
         return tag;
+    }
+
+    public static List<Tag> getTags() {
+        List<Tag> result = new ArrayList<>();
+        for(String tagID : getTagIds()) {
+            result.add(getTag(tagID));
+        }
+        return result;
     }
 }

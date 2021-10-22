@@ -23,5 +23,6 @@ public class PlayerEvents implements Listener {
     public void onQuit(PlayerQuitEvent e) {
         Player player = e.getPlayer();
         PlayerManager.save(player);
+        PlayerManager.playerTags.remove(player.getUniqueId());
     }
 }

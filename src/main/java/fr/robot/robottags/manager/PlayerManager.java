@@ -1,6 +1,5 @@
 package fr.robot.robottags.manager;
 
-import fr.robot.robottags.manager.StorageManager.DBMODE;
 import fr.robot.robottags.object.Tag;
 import org.bukkit.entity.Player;
 
@@ -19,8 +18,8 @@ public class PlayerManager {
         DEFAULT_TAG = ConfigManager.getConfig().get().getString("default-tag.tag");
     }
 
-    public static boolean hasTag(Player player) {
-        return hasTag(player.getUniqueId());
+    public static void setTag(UUID playerUUID, String tagID) {
+        playerTags.put(playerUUID, tagID);
     }
 
     public static boolean hasTag(UUID playerUUID) {
@@ -28,13 +27,9 @@ public class PlayerManager {
             case YML:
                 return ConfigManager.getDatabase().get().get(playerUUID.toString()) != null;
             case MYSQL:
-                return MysqlManager.SQLgettag(playerUUID) != null;
+                return MysqlManager.getTag(playerUUID) != null;
         }
         return false;
-    }
-
-    public static void load(Player player) {
-        load(player.getUniqueId());
     }
 
     public static void load(UUID playerUUID) {
@@ -45,18 +40,15 @@ public class PlayerManager {
                     tagID = ConfigManager.getDatabase().get().getString(playerUUID.toString());
                     break;
                 case MYSQL:
-                    tagID = MysqlManager.SQLgettag(playerUUID);
+                    tagID = MysqlManager.getTag(playerUUID);
                     break;
             }
         }
-
         if(tagID != null && TagManager.exist(tagID))
             setTag(playerUUID, tagID);
-        else if(ENABLED_DEFAULT_TAG && TagManager.exist(DEFAULT_TAG))
-            setTag(playerUUID, DEFAULT_TAG);
-        else
-            setTag(playerUUID, null);
     }
+
+
 
     public static void save(UUID playerUUID) {
         String tagID = getTagId(playerUUID);
@@ -64,19 +56,35 @@ public class PlayerManager {
         switch (StorageManager.getMode()) {
             case YML:
                 ConfigManager.getDatabase().get().set(playerUUID.toString(), tagID);
+                ConfigManager.getDatabase().save();
                 break;
             case MYSQL:
-                MysqlManager.SQLsettag(playerUUID, tagID);
+                MysqlManager.setTag(playerUUID, tagID);
                 break;
         }
+    }
+
+    public static void clear(UUID playerUUID) {
+        switch (StorageManager.getMode()) {
+            case YML:
+                ConfigManager.getDatabase().get().set(playerUUID.toString(), null);
+                ConfigManager.getDatabase().save();
+                break;
+            case MYSQL:
+                MysqlManager.setTag(playerUUID, null);
+                break;
+        }
+        playerTags.remove(playerUUID);
     }
 
     public static void save(Player player) {
         save(player.getUniqueId());
     }
 
-    public static String getTagId(UUID playerUUD) {
-        return playerTags.get(playerUUD);
+    public static String getTagId(UUID playerUUID) {
+        if(playerTags.containsKey(playerUUID) && TagManager.exist(playerTags.get(playerUUID)))
+            return playerTags.get(playerUUID);
+        return null;
     }
 
     public static String getTagId(Player player) {
@@ -91,11 +99,15 @@ public class PlayerManager {
         return getTag(player.getUniqueId());
     }
 
-    public static void setTag(UUID playerUUID, String tagID) {
-        playerTags.put(playerUUID, tagID);
-    }
-
     public static void setTag(Player player, String tagID) {
         setTag(player.getUniqueId(), tagID);
+    }
+
+    public static void load(Player player) {
+        load(player.getUniqueId());
+    }
+
+    public static boolean hasTag(Player player) {
+        return hasTag(player.getUniqueId());
     }
 }

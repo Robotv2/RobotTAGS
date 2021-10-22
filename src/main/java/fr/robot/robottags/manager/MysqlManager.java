@@ -74,10 +74,10 @@ public class MysqlManager {
         return false;
     }
 
-    public static void SQLsettag(UUID uuid, String tag) {
+    public static void setTag(UUID uuid, String tagID) {
         try {
             PreparedStatement ps = getConnection().prepareStatement("UPDATE robottags_tags SET TAG = ? WHERE UUID = ?");
-            ps.setString(1, tag);
+            ps.setString(1, tagID);
             ps.setString(2, uuid.toString());
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -85,7 +85,7 @@ public class MysqlManager {
         }
     }
 
-    public static String SQLgettag(UUID uuid) {
+    public static String getTag(UUID uuid) {
         try {
             PreparedStatement ps = getConnection().prepareStatement("SELECT TAG FROM robottags_tags WHERE UUID=?");
             ps.setString(1, uuid.toString());

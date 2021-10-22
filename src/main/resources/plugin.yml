@@ -5,3 +5,9 @@ api-version: 1.16
 softdepend: [ PlaceholderAPI ]
 authors: [ Robotv2 ]
 description: A tag plugin supporting HEX color format with a GUI system, and supporting MySQL
+commands:
+  robottags:
+    description:  to open the gui / to reload the plugin / see the list of all tags ...
+    aliases:
+      - tag
+      - tags

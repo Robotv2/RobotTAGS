@@ -41,15 +41,16 @@ public class Tag {
         this.page = config.get().getInt("tags." + ID + ".page");
         this.material = Material.valueOf(config.get().getString("tags." + ID + ".material").toUpperCase());
         this.lore = config.get().getStringList("tags." + ID + ".lore");
-        this.item = new ItemAPI.itemBuilder()
-                .setType(material).setLore(lore)
-                .addFlags(ItemFlag.HIDE_ATTRIBUTES).build();
 
         String unformated = config.get().getString("tags." + ID + ".display");
         if(useHexColor)
             this.display = IridiumColorAPI.process(unformated);
         else
             this.display = colorize(unformated);
+
+        this.item = new ItemAPI.itemBuilder()
+                .setType(material).setName(this.display).setLore(lore).setKey("tag", ID)
+                .addFlags(ItemFlag.HIDE_ATTRIBUTES).build();
     }
 
     public void saveToFile() {

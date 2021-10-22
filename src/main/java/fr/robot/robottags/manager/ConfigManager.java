@@ -13,10 +13,15 @@ public class ConfigManager {
 
     public static void init() {
         tagConfig = ConfigAPI.getConfig("tags");
+        tagConfig.setup();
         messageConfig = ConfigAPI.getConfig("messages");
+        messageConfig.setup();
         databaseYML = ConfigAPI.getConfig("database");
+        databaseYML.setup();
         configYML = ConfigAPI.getConfig("configuration");
+        configYML.setup();
         mysqlConfig = ConfigAPI.getConfig("mysql");
+        mysqlConfig.setup();
     }
 
     public static Config getTagConfig() {

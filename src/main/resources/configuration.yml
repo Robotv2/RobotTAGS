@@ -1,0 +1,12 @@
+default-tag:
+  enabled: false
+  #Should we use a "default tag" if the player has none ?
+  tag: default
+  #Which tag should we use if the player has none ? ("default-tag.enabled" has to be true)
+
+storage:
+  mode: YML
+
+GUI:
+  title: "&7Main menu"
+  total-slots: 54
