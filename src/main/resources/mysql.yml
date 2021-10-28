@@ -1,6 +1,0 @@
-host: your-host
-port: your-port
-datababe: your-database
-username: your-username
-password: your-password
-useSSL: false

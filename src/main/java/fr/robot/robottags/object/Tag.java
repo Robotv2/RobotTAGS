@@ -39,17 +39,27 @@ public class Tag {
 
         this.slot = config.get().getInt("tags." + ID + ".slot");
         this.page = config.get().getInt("tags." + ID + ".page");
-        this.material = Material.valueOf(config.get().getString("tags." + ID + ".material").toUpperCase());
         this.lore = config.get().getStringList("tags." + ID + ".lore");
 
-        String unformated = config.get().getString("tags." + ID + ".display");
+        String unformatted = config.get().getString("tags." + ID + ".display");
         if(useHexColor)
-            this.display = IridiumColorAPI.process(unformated);
+            this.display = IridiumColorAPI.process(unformatted);
         else
-            this.display = colorize(unformated);
+            this.display = colorize(unformatted);
 
-        this.item = new ItemAPI.itemBuilder()
-                .setType(material).setName(this.display).setLore(lore).setKey("tag", ID)
+        ItemAPI.ItemBuilder builder;
+        String HEAD_OR_MATERIAL = config.get().getString("tags." + ID + ".material");
+        assert HEAD_OR_MATERIAL != null;
+
+        if(HEAD_OR_MATERIAL.startsWith("head-")) {
+            ItemStack head = ItemAPI.createSkull(HEAD_OR_MATERIAL.replace("head-", ""));
+            builder = ItemAPI.toBuilder(head);
+        } else {
+            builder = new ItemAPI.ItemBuilder().setType(Material.valueOf(HEAD_OR_MATERIAL.toUpperCase()));
+        }
+
+        this.item = builder
+                .setName(this.display).setLore(lore).setKey("tag", ID)
                 .addFlags(ItemFlag.HIDE_ATTRIBUTES).build();
     }
 

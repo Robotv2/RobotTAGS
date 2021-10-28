@@ -1,5 +1,6 @@
 package fr.robot.robottags.commands;
 
+import fr.robot.robottags.Main;
 import fr.robot.robottags.commands.subs.ClearTag;
 import fr.robot.robottags.commands.subs.Reload;
 import fr.robot.robottags.commands.subs.SetTag;
@@ -31,7 +32,7 @@ public class RobotTagsCommand extends Command {
         if(args.length == 0) {
             if(!(sender instanceof Player))
                 MessageManager.Message.NOT_FROM_CONSOLE.send(sender);
-            else if(!sender.hasPermission("robottags.opengui"))
+            else if(!Main.hasPermission(sender, "robottags.opengui"))
                 MessageManager.Message.NO_PERMISSION.send(sender);
             else {
                 Player opener = (Player) sender;

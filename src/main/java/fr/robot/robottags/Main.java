@@ -3,6 +3,7 @@ package fr.robot.robottags;
 import fr.robot.robottags.commands.RobotTagsCommand;
 import fr.robot.robottags.listeners.PlayerEvents;
 import fr.robot.robottags.manager.*;
+import fr.robot.robottags.ui.ItemStock;
 import fr.robot.robottags.ui.MenuGUI;
 import fr.robot.robottags.utility.config.ConfigAPI;
 import fr.robot.robottags.utility.ui.GuiAPI;
@@ -27,10 +28,12 @@ public final class Main extends JavaPlugin {
         TagManager.init();
         PlayerManager.init();
 
+        ItemStock.init();
+
         initListeners();
         initCommands();
         initGui();
-        (new Placeholderapi()).register();
+        new Placeholderapi().register();
     }
 
     @Override
@@ -44,10 +47,10 @@ public final class Main extends JavaPlugin {
         ConfigAPI.getConfig("messages").reload();
         ConfigAPI.getConfig("database").reload();
         ConfigAPI.getConfig("configuration").reload();
-        ConfigAPI.getConfig("mysql").reload();
 
         TagManager.init();
         PlayerManager.init();
+        ConfigManager.initSettings();
         getLogger().info(colorize("&7Please not that &cyou can't &7change the storage mode with only /tags reload. You'll need to restart your server."));
     }
 

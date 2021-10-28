@@ -4,7 +4,7 @@ import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 
-public class UIutility {
+public class PaginationUtility {
 
     private static final HashMap<Player, Integer> pages = new HashMap<>();
 

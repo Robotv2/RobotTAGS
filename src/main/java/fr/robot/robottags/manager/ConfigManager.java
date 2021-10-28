@@ -9,7 +9,11 @@ public class ConfigManager {
     private static Config messageConfig;
     private static Config databaseYML;
     private static Config configYML;
-    private static Config mysqlConfig;
+
+    public static String GUI_TITLE;
+    public static int GUI_SLOTS;
+
+    public static boolean WANT_CHANGE_ITEM;
 
     public static void init() {
         tagConfig = ConfigAPI.getConfig("tags");
@@ -20,8 +24,15 @@ public class ConfigManager {
         databaseYML.setup();
         configYML = ConfigAPI.getConfig("configuration");
         configYML.setup();
-        mysqlConfig = ConfigAPI.getConfig("mysql");
-        mysqlConfig.setup();
+
+        initSettings();
+    }
+
+    public static void initSettings() {
+        GUI_TITLE = ConfigManager.getConfig().get().getString("GUI.title");
+        GUI_SLOTS = ConfigManager.getConfig().get().getInt("GUI.total-slots");
+
+        WANT_CHANGE_ITEM = ConfigManager.getConfig().get().getBoolean("GUI.items.change-item.enabled");
     }
 
     public static Config getTagConfig() {
@@ -38,9 +49,5 @@ public class ConfigManager {
 
     public static Config getConfig() {
         return configYML;
-    }
-
-    public static Config getMysqlConfig() {
-        return mysqlConfig;
     }
 }

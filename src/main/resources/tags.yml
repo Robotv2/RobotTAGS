@@ -5,7 +5,7 @@ tags:
     need-permission: true
     permission: robottags.tag.mytag
     #GUI-ONLY
-    slot: 23
+    slot: 21
     page: 1
     material: book
     lore:
@@ -18,7 +18,7 @@ tags:
     need-permission: true
     permission: robottags.tag.hexcolored
     #GUI-ONLY
-    slot: 24
+    slot: 22
     page: 1
     material: book
     lore:
@@ -31,7 +31,7 @@ tags:
     need-permission: true
     permission: robottags.tag.gradient
     #GUI-ONLY
-    slot: 25
+    slot: 23
     page: 1
     material: book
     lore:

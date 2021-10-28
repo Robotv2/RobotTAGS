@@ -6,7 +6,24 @@ default-tag:
 
 storage:
   mode: YML
+  mysql-credentials:
+    host: your-host
+    port: your-port
+    datababe: your-database
+    username: your-username
+    password: your-password
+    useSSL: false
+
 
 GUI:
   title: "&7Main menu"
   total-slots: 54
+  items:
+    change-item:
+      enabled: true
+      display: "&cYou don't have to the tag: %tag-id%"
+      material: obsidian
+      lore:
+        - "&f"
+        - "&cYou don't have access to the tag %tag%"
+        - "&f"

@@ -3,6 +3,7 @@ package fr.robot.robottags.utility;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import fr.robot.robottags.Main;
+import fr.robot.robottags.utility.color.ColorAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -15,10 +16,11 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static fr.robot.robottags.utility.color.ColorAPI.colorize;
 
@@ -48,10 +50,6 @@ public class ItemAPI {
         return getHead(player.getUniqueId());
     }
 
-    public static ItemStack getHead(String playerName) {
-        return getHead(Bukkit.getOfflinePlayer(playerName).getUniqueId());
-    }
-
     public static ItemStack createSkull(String url) {
         if(heads.containsKey(url))
             return heads.get(url);
@@ -75,98 +73,94 @@ public class ItemAPI {
         return head;
     }
 
-    public static boolean hasKey(ItemStack item, String keyStr, PersistentDataType type) {
-        NamespacedKey key = new NamespacedKey(Main.getInstance(), keyStr);
-        return item.getItemMeta().getPersistentDataContainer().has(key, type);
-    }
-
-    public static itemBuilder toBuilder(ItemStack item) {
-        itemBuilder builder = new itemBuilder();
+    public static ItemBuilder toBuilder(ItemStack item) {
+        ItemBuilder builder = new ItemBuilder();
         builder.setMeta(item.getItemMeta());
         builder.setType(item.getType());
         builder.setAmount(item.getAmount());
         return builder;
     }
 
-    public static class itemBuilder {
+    public static boolean hasKey(ItemStack item, String keyStr, PersistentDataType type) {
+        NamespacedKey key = new NamespacedKey(Main.getInstance(), keyStr);
+        return item.getItemMeta().getPersistentDataContainer().has(key, type);
+    }
+
+    public static Object getKeyValue(ItemStack item, String keyStr, PersistentDataType type) {
+        NamespacedKey key = new NamespacedKey(Main.getInstance(), keyStr);
+        return item.getItemMeta().getPersistentDataContainer().get(key, type);
+    }
+
+    public static class ItemBuilder {
         private Material type;
         private int amount;
         private ItemMeta meta = new ItemStack(Material.GRASS).getItemMeta();
 
-        public itemBuilder setType(Material type) {
+        public ItemBuilder setType(Material type) {
             this.type = type;
             return this;
         }
 
-        public itemBuilder setAmount(int amount) {
+        public ItemBuilder setAmount(int amount) {
             this.amount = amount;
             return this;
         }
 
-        public itemBuilder setName(String name) {
+        public ItemBuilder setName(String name) {
             this.meta.setDisplayName(colorize(name));
             return this;
         }
 
-        public itemBuilder setLore(String... lore) {
-            List<String> result = new ArrayList<>(List.of(lore));
-            for(int i = 0; i < result.size(); i++) {
-                String line = result.get(i);
-                result.set(i, colorize(line));
-            }
-            this.meta.setLore(result);
+        public ItemBuilder setLore(String... lore) {
+            this.meta.setLore(Arrays.stream(lore).map(ColorAPI::colorize).collect(Collectors.toList()));
             return this;
         }
 
-        public itemBuilder setLore(List<String> lore) {
-            for(int i = 0; i < lore.size(); i++) {
-                String line = lore.get(i);
-                lore.set(i, colorize(line));
-            }
-            this.meta.setLore(lore);
+        public ItemBuilder setLore(List<String> lore) {
+            this.meta.setLore(lore.stream().map(ColorAPI::colorize).collect(Collectors.toList()));
             return this;
         }
 
-        public itemBuilder setKey(String keyStr, String value) {
+        public ItemBuilder setKey(String keyStr, String value) {
             NamespacedKey key = new NamespacedKey(Main.getInstance(), keyStr);
             this.meta.getPersistentDataContainer().set(key, PersistentDataType.STRING, value);
             return this;
         }
 
-        public itemBuilder setKey(String keyStr, double value) {
+        public ItemBuilder setKey(String keyStr, double value) {
             NamespacedKey key = new NamespacedKey(Main.getInstance(), keyStr);
             this.meta.getPersistentDataContainer().set(key, PersistentDataType.DOUBLE, value);
             return this;
         }
 
-        public itemBuilder setKey(String keyStr, int value) {
+        public ItemBuilder setKey(String keyStr, int value) {
             NamespacedKey key = new NamespacedKey(Main.getInstance(), keyStr);
             this.meta.getPersistentDataContainer().set(key, PersistentDataType.INTEGER, value);
             return this;
         }
 
-        public itemBuilder setKey(String keyStr, float value) {
+        public ItemBuilder setKey(String keyStr, float value) {
             NamespacedKey key = new NamespacedKey(Main.getInstance(), keyStr);
             this.meta.getPersistentDataContainer().set(key, PersistentDataType.FLOAT, value);
             return this;
         }
 
-        public itemBuilder addEnchant(Enchantment enchant, int level, boolean ignoreLevelRestriction) {
+        public ItemBuilder addEnchant(Enchantment enchant, int level, boolean ignoreLevelRestriction) {
             this.meta.addEnchant(enchant, level, ignoreLevelRestriction);
             return this;
         }
 
-        public itemBuilder setUnbreakable(boolean unbreakable) {
+        public ItemBuilder setUnbreakable(boolean unbreakable) {
             this.meta.setUnbreakable(unbreakable);
             return this;
         }
 
-        public itemBuilder addFlags(ItemFlag... flags) {
+        public ItemBuilder addFlags(ItemFlag... flags) {
             this.meta.addItemFlags(flags);
             return this;
         }
 
-        public itemBuilder setMeta(ItemMeta meta) {
+        public ItemBuilder setMeta(ItemMeta meta) {
             this.meta = meta;
             return this;
         }

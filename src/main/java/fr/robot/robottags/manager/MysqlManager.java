@@ -13,13 +13,13 @@ public class MysqlManager {
 
     public static void connect() throws ClassNotFoundException, SQLException {
         if(!isConnected()) {
-            String host = ConfigManager.getMysqlConfig().get().getString("host");
-            String port = ConfigManager.getMysqlConfig().get().getString("port");
-            String database = ConfigManager.getMysqlConfig().get().getString("database");
-            String username = ConfigManager.getMysqlConfig().get().getString("username");
-            String password = ConfigManager.getMysqlConfig().get().getString("password");
+            String host = ConfigManager.getConfig().get().getString("storage.mysql-credentials.host");
+            String port = ConfigManager.getConfig().get().getString("storage.mysql-credentials.port");
+            String database = ConfigManager.getConfig().get().getString("storage.mysql-credentials.database");
+            String username = ConfigManager.getConfig().get().getString("storage.mysql-credentials.username");
+            String password = ConfigManager.getConfig().get().getString("storage.mysql-credentials.password");
 
-            String ssl = String.valueOf(ConfigManager.getMysqlConfig().get().getBoolean("useSSL"));
+            String ssl = String.valueOf(ConfigManager.getConfig().get().getBoolean("storage.mysql-credentials.useSSL"));
 
             connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database + "?useSSL=" + ssl, username, password);
         }
@@ -42,7 +42,7 @@ public class MysqlManager {
     public static void createTable() {
         PreparedStatement ps;
         try {
-            ps = getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS robottags_tags "+"(UUID VARCHAR(100),TAG VARCHAR(100),PRIMARY KEY (UUID))");
+            ps = getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS robottags_tags (UUID VARCHAR(100),TAG VARCHAR(100),PRIMARY KEY (UUID))");
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

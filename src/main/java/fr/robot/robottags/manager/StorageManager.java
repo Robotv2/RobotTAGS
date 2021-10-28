@@ -1,6 +1,6 @@
 package fr.robot.robottags.manager;
 
-import joptsimple.internal.Strings;
+import com.google.common.base.Strings;
 
 import java.sql.SQLException;
 

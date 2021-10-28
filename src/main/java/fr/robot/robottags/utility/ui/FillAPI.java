@@ -11,7 +11,7 @@ public class FillAPI {
     private static ItemStack empty;
 
     public static ItemStack getDefaultEmpty() {
-        return new ItemAPI.itemBuilder().setType(Material.BLACK_STAINED_GLASS_PANE)
+        return new ItemAPI.ItemBuilder().setType(Material.BLACK_STAINED_GLASS_PANE)
                 .setName("&8").addFlags(ItemFlag.HIDE_ATTRIBUTES).build();
     }
 
