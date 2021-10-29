@@ -18,7 +18,7 @@ tags:
     need-permission: true
     permission: robottags.tag.hexcolored
     #GUI-ONLY
-    slot: 22
+    slot: 23
     page: 1
     material: book
     lore:
@@ -31,8 +31,8 @@ tags:
     need-permission: true
     permission: robottags.tag.gradient
     #GUI-ONLY
-    slot: 23
-    page: 1
+    slot: 22
+    page: 2
     material: book
     lore:
       - "&8"

@@ -1,2 +1,10 @@
-prefix: "&c&lTAGS &8-"
+prefix: "&c&lTAGS &8- "
+not-from-console: "&cYou can't do this command from the console."
 no-permission: "&cYou don't have the permission to execute this command."
+plugin-reloaded: "&aYou have just reloaded the plugin."
+
+admin-set-tag: "&7The new tag of &e%player% &7is now: &f%new-tag%"
+admin-clear-tag: "&7You just deleted the tag of &e%player%"
+
+player-tag-changed: "&7You successfully changed your tag to: %tag%"
+player-can't-access: "&cYou can't use this tag."

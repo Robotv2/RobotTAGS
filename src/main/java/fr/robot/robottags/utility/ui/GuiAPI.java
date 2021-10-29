@@ -33,7 +33,7 @@ public class GuiAPI implements Listener {
 
         e.setCancelled(true);
         GUI menu = openedGui.get(playerUUID);
-        menu.onClick(player, e.getInventory(), item, e.getRawSlot());
+        menu.onClick(player, e.getInventory(), item, e.getRawSlot(), e.getClick());
     }
 
     @EventHandler

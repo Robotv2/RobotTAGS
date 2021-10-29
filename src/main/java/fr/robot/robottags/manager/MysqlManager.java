@@ -1,7 +1,13 @@
 package fr.robot.robottags.manager;
 
+import fr.robot.robottags.Main;
+import fr.robot.robottags.utility.TaskAPI;
+import org.bukkit.Bukkit;
+
 import java.sql.*;
 import java.util.UUID;
+
+import static fr.robot.robottags.utility.color.ColorAPI.colorize;
 
 public class MysqlManager {
 
@@ -96,5 +102,23 @@ public class MysqlManager {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static void autoReconnect() {
+        Long delay = 20 * 30L; //30 minutes
+        TaskAPI.runTaskTimer(() -> {
+
+            try {
+                Main.getInstance().getLogger().info("Auto-reconnect in progress...");
+                if(isConnected())
+                    disconnect();
+                connect();
+                Main.getInstance().getLogger().info("Auto-reconnection completed.");
+            } catch (ClassNotFoundException | SQLException e) {
+                Main.getInstance().getLogger()
+                        .warning(colorize("&cAn error occurred during the auto-reconnection:" + e.getMessage()));
+            }
+
+        }, delay, delay);
     }
 }

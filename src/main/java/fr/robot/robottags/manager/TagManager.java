@@ -1,5 +1,6 @@
 package fr.robot.robottags.manager;
 
+import fr.robot.robottags.Main;
 import fr.robot.robottags.object.Tag;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -12,6 +13,7 @@ public class TagManager {
     private static HashMap<String, Tag> tags;
 
     public static void init() {
+        Main.getInstance().getLogger().info("Loading of tags...");
         ConfigurationSection section = ConfigManager.getTagConfig().get().getConfigurationSection("tags");
         if(section != null)
             IDs = section.getKeys(false);

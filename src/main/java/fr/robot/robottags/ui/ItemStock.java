@@ -14,14 +14,16 @@ import java.util.stream.Collectors;
 
 public class ItemStock {
 
-    private static HashMap<ItemStockType, ItemStack> BUILD_ITEMS = new HashMap<>();
+    private static final HashMap<ItemStockType, ItemStack> BUILD_ITEMS = new HashMap<>();
 
     public enum ItemStockType {
-        CHANGE_ITEM;
+        CHANGE_ITEM,NEXT_PAGE, PREVIOUS_PAGE;
     }
 
     public static void init() {
-        initItem(ItemStockType.CHANGE_ITEM);
+        for(ItemStockType type : ItemStockType.values()) {
+            initItem(type);
+        }
     }
 
     private static void initItem(ItemStockType type) {
@@ -30,6 +32,12 @@ public class ItemStock {
         switch (type) {
             case CHANGE_ITEM:
                 id = "change-item";
+                break;
+            case NEXT_PAGE:
+                id = "next-page";
+                break;
+            case PREVIOUS_PAGE:
+                id = "previous-page";
                 break;
         }
 
@@ -51,7 +59,6 @@ public class ItemStock {
         }
 
         builder.setName(NAME).setLore(LORE).setKey(id, 1).addFlags(ItemFlag.HIDE_ATTRIBUTES).build();
-
         BUILD_ITEMS.put(type, builder.build());
     }
 
@@ -74,5 +81,13 @@ public class ItemStock {
         }
 
         return builder.build();
+    }
+
+    public static ItemStack getNextPageItem() {
+        return BUILD_ITEMS.get(ItemStockType.NEXT_PAGE);
+    }
+
+    public static ItemStack getPreviousPageItem() {
+        return BUILD_ITEMS.get(ItemStockType.PREVIOUS_PAGE);
     }
 }

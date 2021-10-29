@@ -1,5 +1,6 @@
 package fr.robot.robottags.manager;
 
+import fr.robot.robottags.Main;
 import fr.robot.robottags.object.Tag;
 import org.bukkit.entity.Player;
 
@@ -22,37 +23,33 @@ public class PlayerManager {
         playerTags.put(playerUUID, tagID);
     }
 
-    public static boolean hasTag(UUID playerUUID) {
-        switch(StorageManager.getMode()) {
-            case YML:
-                return ConfigManager.getDatabase().get().get(playerUUID.toString()) != null;
-            case MYSQL:
-                return MysqlManager.getTag(playerUUID) != null;
-        }
-        return false;
-    }
-
     public static void load(UUID playerUUID) {
+        Main.sendDebug("Chargement du tag pour un joueur. (" + playerUUID.toString() + ")");
+
         String tagID = null;
-        if(hasTag(playerUUID)) {
-            switch (StorageManager.getMode()) {
-                case YML:
-                    tagID = ConfigManager.getDatabase().get().getString(playerUUID.toString());
-                    break;
-                case MYSQL:
-                    tagID = MysqlManager.getTag(playerUUID);
-                    break;
-            }
+        switch (StorageManager.getMode()) {
+            case YML:
+                tagID = ConfigManager.getDatabase().get().getString(playerUUID.toString());
+                break;
+            case MYSQL:
+                tagID = MysqlManager.getTag(playerUUID);
+                break;
         }
-        if(tagID != null && TagManager.exist(tagID))
+
+        if(tagID != null && TagManager.exist(tagID)) {
             setTag(playerUUID, tagID);
+            Main.sendDebug("Le joueur possède le tag " + tagID + " (" + StorageManager.getMode() + ")");
+        } else {
+            Main.sendDebug("Le joueur n'a été vu avec aucun tag existant." +  " (" + StorageManager.getMode() + ")");
+        }
     }
-
-
 
     public static void save(UUID playerUUID) {
         String tagID = getTagId(playerUUID);
-        if(tagID == null) return;
+        if(tagID == null) {
+            Main.sendDebug("Le joueur avec l'UUID " + playerUUID + " ne possède pas de tag.");
+            return;
+        }
         switch (StorageManager.getMode()) {
             case YML:
                 ConfigManager.getDatabase().get().set(playerUUID.toString(), tagID);
@@ -62,6 +59,7 @@ public class PlayerManager {
                 MysqlManager.setTag(playerUUID, tagID);
                 break;
         }
+        Main.sendDebug("Le joueur avec l'UUID " + playerUUID + " a été sauvegardé avec le tag " + tagID + " + (" + StorageManager.getMode() + ")");
     }
 
     public static void clear(UUID playerUUID) {
@@ -105,9 +103,5 @@ public class PlayerManager {
 
     public static void load(Player player) {
         load(player.getUniqueId());
-    }
-
-    public static boolean hasTag(Player player) {
-        return hasTag(player.getUniqueId());
     }
 }

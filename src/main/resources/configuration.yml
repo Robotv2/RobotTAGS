@@ -1,3 +1,4 @@
+debug: false
 default-tag:
   enabled: false
   #Should we use a "default tag" if the player has none ?
@@ -5,11 +6,12 @@ default-tag:
   #Which tag should we use if the player has none ? ("default-tag.enabled" has to be true)
 
 storage:
+  #Default mode is YML, Mode Available: YML, MySQL.
   mode: YML
   mysql-credentials:
     host: your-host
     port: your-port
-    datababe: your-database
+    database: your-database
     username: your-username
     password: your-password
     useSSL: false
@@ -18,12 +20,65 @@ storage:
 GUI:
   title: "&7Main menu"
   total-slots: 54
+  total-pages: 2 #(Minimum 1)
+
+  #Here are the main item in the gui, you can all disabled them by switching "enabled" to false.
   items:
     change-item:
       enabled: true
-      display: "&cYou don't have to the tag: %tag-id%"
+      display: "&cYou don't have the tag: %tag%"
       material: obsidian
       lore:
         - "&f"
-        - "&cYou don't have access to the tag %tag%"
+        - "&cYou don't have access to the tag %tag-id%"
         - "&f"
+    next-page:
+      enabled: true
+      slot: 53
+      display: "&7Click here to go to the next page"
+      material: head-eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDllY2NjNWMxYzc5YWE3ODI2YTE1YTdmNWYxMmZiNDAzMjgxNTdjNTI0MjE2NGJhMmFlZjQ3ZTVkZTlhNWNmYyJ9fX0=
+      lore: []
+    previous-page:
+      enabled: true
+      slot: 45
+      display: "&7Click here to go to the previous page"
+      material: head-eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODY0Zjc3OWE4ZTNmZmEyMzExNDNmYTY5Yjk2YjE0ZWUzNWMxNmQ2NjllMTljNzVmZDFhN2RhNGJmMzA2YyJ9fX0=
+      lore: []
+
+  #Here are custom items, you can create and add as many items as you want in the GUI !
+  #Support placeholders from PlaceholderAPI in name and lore.
+  custom-items:
+    player_information:
+      enabled: false
+      slot: 0
+      material: name_tag
+      name: "&7Your current tag: %robottags_player%"
+      lore: []
+      right-click:
+        - "[CLOSE]"
+      left-click:
+        - "[CLOSE]"
+    clear_tag:
+      enabled: false
+      slot: 8
+      material: head-eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2VkMWFiYTczZjYzOWY0YmM0MmJkNDgxOTZjNzE1MTk3YmUyNzEyYzNiOTYyYzk3ZWJmOWU5ZWQ4ZWZhMDI1In19fQ==
+      name: "&7Click here to remove your tag"
+      lore: []
+      right-click:
+        - "[CONSOLE] robottags clear %player%"
+        - "[MESSAGE] &7Your tag has been removed."
+        - "[CLOSE]"
+      left-click:
+        - "[CONSOLE] robottags clear %player%"
+        - "[MESSAGE] &7Your tag has been removed."
+        - "[CLOSE]"
+    close-gui:
+      enabled: true
+      slot: 49
+      name: "&cClose the inventory"
+      material: barrier
+      lore: []
+      right-click:
+        - "[CLOSE]"
+      left-click:
+        - "[CLOSE]"

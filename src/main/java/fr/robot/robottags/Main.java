@@ -3,6 +3,7 @@ package fr.robot.robottags;
 import fr.robot.robottags.commands.RobotTagsCommand;
 import fr.robot.robottags.listeners.PlayerEvents;
 import fr.robot.robottags.manager.*;
+import fr.robot.robottags.ui.CustomItems;
 import fr.robot.robottags.ui.ItemStock;
 import fr.robot.robottags.ui.MenuGUI;
 import fr.robot.robottags.utility.config.ConfigAPI;
@@ -17,28 +18,45 @@ import static fr.robot.robottags.utility.color.ColorAPI.colorize;
 public final class Main extends JavaPlugin {
 
     private static Main INSTANCE;
+    private Placeholderapi placeholderapi;
 
     @Override
     public void onEnable() {
         INSTANCE = this;
+        Long current = System.currentTimeMillis();
 
+        getLogger().info("");
+        getLogger().info("Thanks for using RobotTags !");
+        getLogger().info("Author: Robotv2");
+        getLogger().info("Version: " + getDescription().getVersion());
+        getLogger().info("");
+
+        getLogger().info("Loading of the configurations files...");
         ConfigAPI.init(this);
         ConfigManager.init();
+
         StorageManager.init();
         TagManager.init();
         PlayerManager.init();
 
         ItemStock.init();
+        CustomItems.init();
 
         initListeners();
         initCommands();
         initGui();
-        new Placeholderapi().register();
+
+        placeholderapi = new Placeholderapi();
+        placeholderapi.register();
+
+        getLogger().info("The plugin has been loaded in " + String.valueOf(System.currentTimeMillis() - current) + "MS");
+        getLogger().info("");
     }
 
     @Override
     public void onDisable() {
         StorageManager.close();
+        placeholderapi.unregister();
         INSTANCE = null;
     }
 
@@ -50,7 +68,9 @@ public final class Main extends JavaPlugin {
 
         TagManager.init();
         PlayerManager.init();
-        ConfigManager.initSettings();
+        ItemStock.init();
+        CustomItems.init();
+        ConfigManager.Settings.initSettings();
         getLogger().info(colorize("&7Please not that &cyou can't &7change the storage mode with only /tags reload. You'll need to restart your server."));
     }
 
@@ -78,8 +98,13 @@ public final class Main extends JavaPlugin {
 
     public static void sendMessage(CommandSender sender, boolean prefix, String message) {
         if(prefix)
-            sender.sendMessage(MessageManager.Message.PREFIX.getMessage() + " " + colorize(message));
+            sender.sendMessage(MessageManager.Message.PREFIX.getMessage()  + colorize(message));
         else
             sender.sendMessage(colorize(message));
+    }
+
+    public static void sendDebug(String message) {
+        if(ConfigManager.Settings.WANT_DEBUG)
+            Main.getInstance().getLogger().info(colorize("&7DEBUG &8- &f" + message));
     }
 }

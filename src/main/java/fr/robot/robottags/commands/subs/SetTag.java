@@ -35,6 +35,9 @@ public class SetTag {
         }
 
         PlayerManager.setTag(target.getUniqueId(), tagID);
-        //TODO envoyer le message
+
+        String message = MessageManager.Message.ADMIN_SET_TAG.getMessage()
+                .replace("%player%", args[1]).replace("%new-tag%", tagID);
+        Main.sendMessage(sender, true, message);
     }
 }

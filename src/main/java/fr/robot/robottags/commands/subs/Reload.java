@@ -13,5 +13,6 @@ public class Reload {
         }
 
         Main.getInstance().onReload();
+        MessageManager.Message.PLUGIN_RELOADED.send(sender);
     }
 }

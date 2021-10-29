@@ -31,6 +31,8 @@ public class ClearTag {
         }
 
         PlayerManager.clear(target.getUniqueId());
-        //TODO envoyer le message
+        String message = MessageManager.Message.ADMIN_CLEAR_TAG.getMessage()
+                .replace("%player%", args[1]);
+        Main.sendMessage(sender, true, message);
     }
 }
