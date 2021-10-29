@@ -23,7 +23,7 @@ public final class Main extends JavaPlugin {
     @Override
     public void onEnable() {
         INSTANCE = this;
-        Long current = System.currentTimeMillis();
+        long current = System.currentTimeMillis();
 
         getLogger().info("");
         getLogger().info("Thanks for using RobotTags !");
@@ -45,6 +45,9 @@ public final class Main extends JavaPlugin {
         initListeners();
         initCommands();
         initGui();
+
+        updateChecker();
+        new Metrics(this, 11791);
 
         placeholderapi = new Placeholderapi();
         placeholderapi.register();
@@ -74,6 +77,33 @@ public final class Main extends JavaPlugin {
         getLogger().info(colorize("&7Please not that &cyou can't &7change the storage mode with only /tags reload. You'll need to restart your server."));
     }
 
+    private void updateChecker() {
+        String response = new UpdateChecker(91885).getVersion();
+
+        if (response != null) {
+            try {
+                double pluginVersion = Double.parseDouble(getDescription().getVersion());
+                double pluginVersionLatest = Double.parseDouble(response);
+
+                if (pluginVersion < pluginVersionLatest) {
+                    getLogger().info("");
+                    getLogger().info("Update: Outdated version detected " + pluginVersion + ", latest version is "
+                            + pluginVersionLatest + ", https://www.spigotmc.org/resources/robottags-hex-color-support-mysql-cross-server-and-gui-system.91885/");
+                    getLogger().info("");
+                }
+            } catch (NumberFormatException exception) {
+                if (!getDescription().getVersion().equalsIgnoreCase(response)) {
+                    getLogger().info("");
+                    getLogger().info("Update: Outdated version detected " + getDescription().getVersion()
+                            + ", latest version is " + response
+                            + ", https://www.spigotmc.org/resources/robottags-hex-color-support-mysql-cross-server-and-gui-system.91885/");
+                    getLogger().info("");
+                }
+            }
+        }
+    }
+
+
     public void initListeners() {
         PluginManager pm = Bukkit.getPluginManager();
         pm.registerEvents(new PlayerEvents(), this);
@@ -87,6 +117,8 @@ public final class Main extends JavaPlugin {
     public void initGui() {
         GuiAPI.addMenu(new MenuGUI());
     }
+
+
 
     public static Main getInstance() {
         return INSTANCE;

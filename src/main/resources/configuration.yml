@@ -1,9 +1,12 @@
 debug: false
-default-tag:
-  enabled: false
-  #Should we use a "default tag" if the player has none ?
-  tag: default
-  #Which tag should we use if the player has none ? ("default-tag.enabled" has to be true)
+options:
+  support-essentialsx-chat: false
+  #With this enabled, you can add the "{TAG}" placeholder in the essentialsX Chat configuration and it will be replaced with the current tag of the player
+  default-tag:
+    enabled: false
+    #Should we use a "default tag" if the player has none ?
+    tag: default
+    #Which tag should we use if the player has none ? ("default-tag.enabled" has to be true)
 
 storage:
   #Default mode is YML, Mode Available: YML, MySQL.
@@ -24,6 +27,13 @@ GUI:
 
   #Here are the main item in the gui, you can all disabled them by switching "enabled" to false.
   items:
+    #This item will be placed in every empty slot in the GUI. If you want nothing in it, put "enabled" to false
+    empty-slots:
+      enabled: true
+      display: "&8"
+      material: black_stained_glass_pane
+      lore: []
+    #This item will be placed at the slot of any tags the player don't has the permission to use.
     change-item:
       enabled: true
       display: "&cYou don't have the tag: %tag%"
@@ -66,11 +76,11 @@ GUI:
       lore: []
       right-click:
         - "[CONSOLE] robottags clear %player%"
-        - "[MESSAGE] &7Your tag has been removed."
+        - "[MESSAGE] %prefix% &7Your tag has been removed."
         - "[CLOSE]"
       left-click:
         - "[CONSOLE] robottags clear %player%"
-        - "[MESSAGE] &7Your tag has been removed."
+        - "[MESSAGE] %prefix% &7Your tag has been removed."
         - "[CLOSE]"
     close-gui:
       enabled: true

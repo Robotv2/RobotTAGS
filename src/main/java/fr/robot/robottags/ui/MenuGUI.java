@@ -9,7 +9,6 @@ import fr.robot.robottags.object.Tag;
 import fr.robot.robottags.utility.ItemAPI;
 import fr.robot.robottags.utility.ui.FillAPI;
 import fr.robot.robottags.utility.ui.GUI;
-import fr.robot.robottags.utility.ui.GuiAPI;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryCloseEvent;
@@ -34,7 +33,8 @@ public class MenuGUI implements GUI {
 
     @Override
     public void contents(Player player, Inventory inv) {
-        FillAPI.setupEmptySlots(inv);
+        if(ConfigManager.Settings.WANT_EMPLTY_SLOTS_ITEM)
+            FillAPI.setupEmptySlots(inv);
 
         int current = PaginationUtility.getOpenPage(player);
         if(current < 0) current = 1;

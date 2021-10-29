@@ -4,6 +4,7 @@ import com.google.common.base.Strings;
 import fr.robot.robottags.manager.ConfigManager;
 import fr.robot.robottags.object.Tag;
 import fr.robot.robottags.utility.ItemAPI;
+import fr.robot.robottags.utility.ui.FillAPI;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -17,19 +18,23 @@ public class ItemStock {
     private static final HashMap<ItemStockType, ItemStack> BUILD_ITEMS = new HashMap<>();
 
     public enum ItemStockType {
-        CHANGE_ITEM,NEXT_PAGE, PREVIOUS_PAGE;
+        CHANGE_ITEM,NEXT_PAGE, PREVIOUS_PAGE, EMPTY_SLOTS;
     }
 
     public static void init() {
         for(ItemStockType type : ItemStockType.values()) {
             initItem(type);
         }
+        FillAPI.setEmpty(BUILD_ITEMS.get(ItemStockType.EMPTY_SLOTS));
     }
 
     private static void initItem(ItemStockType type) {
         String id = "";
 
         switch (type) {
+            case EMPTY_SLOTS:
+                id = "empty-slots";
+                break;
             case CHANGE_ITEM:
                 id = "change-item";
                 break;
@@ -58,7 +63,8 @@ public class ItemStock {
             builder = new ItemAPI.ItemBuilder().setType(Material.valueOf(MATERIAL_OR_HEAD.toUpperCase()));
         }
 
-        builder.setName(NAME).setLore(LORE).setKey(id, 1).addFlags(ItemFlag.HIDE_ATTRIBUTES).build();
+        if(!MATERIAL_OR_HEAD.equalsIgnoreCase("air"))
+            builder.setName(NAME).setLore(LORE).setKey(id, 1).addFlags(ItemFlag.HIDE_ATTRIBUTES).build();
         BUILD_ITEMS.put(type, builder.build());
     }
 

@@ -29,19 +29,17 @@ public class ConfigManager {
         public static int GUI_SLOTS;
 
         public static boolean WANT_CHANGE_ITEM;
-
-        public static boolean WANT_CLOSE_ITEM;
-        public static int CLOSE_ITEM_SLOT;
+        public static boolean WANT_EMPLTY_SLOTS_ITEM;
 
         public static int TOTAL_PAGES;
 
         public static boolean WANT_NEXT_PAGE;
         public static int NEXT_PAGE_SLOT;
-
         public static boolean WANT_PREVIOUS_PAGE;
         public static int PREVIOUS_PAGE_SLOT;
 
         public static boolean WANT_DEBUG;
+        public static boolean WANT_ESSENTIALSX_CHAT;
 
         public static void initSettings() {
             GUI_TITLE = ConfigManager.getConfig().get().getString("GUI.title");
@@ -49,6 +47,7 @@ public class ConfigManager {
             TOTAL_PAGES = ConfigManager.getConfig().get().getInt("GUI.total-pages");
 
             WANT_CHANGE_ITEM = ConfigManager.getConfig().get().getBoolean("GUI.items.change-item.enabled");
+            WANT_EMPLTY_SLOTS_ITEM = ConfigManager.getConfig().get().getBoolean("GUI.items.empty-slots.enabled");
 
             WANT_NEXT_PAGE = ConfigManager.getConfig().get().getBoolean("GUI.items.next-page.enabled");
             NEXT_PAGE_SLOT = ConfigManager.getConfig().get().getInt("GUI.items.next-page.slot");
@@ -57,6 +56,7 @@ public class ConfigManager {
             PREVIOUS_PAGE_SLOT = ConfigManager.getConfig().get().getInt("GUI.items.previous-page.slot");
 
             WANT_DEBUG = ConfigManager.getConfig().get().getBoolean("debug");
+            WANT_ESSENTIALSX_CHAT = ConfigManager.getConfig().get().getBoolean("options.support-essentialsx-chat");
         }
     }
 

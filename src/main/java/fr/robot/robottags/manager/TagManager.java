@@ -49,4 +49,20 @@ public class TagManager {
         }
         return result;
     }
+
+    public static String getTagDisplaySafe(Player player) {
+        if(PlayerManager.getTag(player) != null)
+            return PlayerManager.getTag(player).getDisplay();
+        else if(PlayerManager.ENABLED_DEFAULT_TAG && TagManager.exist(PlayerManager.DEFAULT_TAG))
+            return TagManager.getTag(PlayerManager.DEFAULT_TAG).getDisplay();
+        else return "";
+    }
+
+    public static String getTagIdSafe(Player player) {
+        if(PlayerManager.getTagId(player) != null)
+            return PlayerManager.getTagId(player);
+        else if(PlayerManager.ENABLED_DEFAULT_TAG && TagManager.exist(PlayerManager.DEFAULT_TAG))
+            return PlayerManager.DEFAULT_TAG;
+        else return "";
+    }
 }

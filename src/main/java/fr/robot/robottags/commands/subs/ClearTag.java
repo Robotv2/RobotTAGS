@@ -25,7 +25,7 @@ public class ClearTag {
 
         OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]);
 
-        if(!target.hasPlayedBefore()) {
+        if(!target.isOnline() && !target.hasPlayedBefore()) {
             sendMessage(sender, true, "&cThis player never logged in.");
             return;
         }

@@ -1,6 +1,5 @@
 package fr.robot.robottags;
 
-import fr.robot.robottags.manager.PlayerManager;
 import fr.robot.robottags.manager.TagManager;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
@@ -41,11 +40,11 @@ public class Placeholderapi extends PlaceholderExpansion {
             return "";
         switch(placeholder.toLowerCase()) {
             case "player":
-                return getTagDisplaySafe(player);
+                return TagManager.getTagDisplaySafe(player);
             case "player_id":
-                return getTagIdSafe(player);
+                return TagManager.getTagIdSafe(player);
             case "player_uncolored":
-                return uncolorize(getTagDisplaySafe(player));
+                return uncolorize(TagManager.getTagDisplaySafe(player));
         }
         if(placeholder.startsWith("tag_")) {
             String tadID = placeholder.replace("tag_", "");
@@ -53,21 +52,5 @@ public class Placeholderapi extends PlaceholderExpansion {
                 return TagManager.getTag(tadID).getDisplay();
         }
         return placeholder;
-    }
-
-    public String getTagDisplaySafe(Player player) {
-        if(PlayerManager.getTag(player) != null)
-            return PlayerManager.getTag(player).getDisplay();
-        else if(PlayerManager.ENABLED_DEFAULT_TAG && TagManager.exist(PlayerManager.DEFAULT_TAG))
-            return TagManager.getTag(PlayerManager.DEFAULT_TAG).getDisplay();
-        else return "";
-    }
-
-    public String getTagIdSafe(Player player) {
-        if(PlayerManager.getTagId(player) != null)
-            return PlayerManager.getTagId(player);
-        else if(PlayerManager.ENABLED_DEFAULT_TAG && TagManager.exist(PlayerManager.DEFAULT_TAG))
-            return PlayerManager.DEFAULT_TAG;
-        else return "";
     }
 }

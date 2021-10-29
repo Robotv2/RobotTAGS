@@ -25,7 +25,7 @@ public class SetTag {
         OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]);
         String tagID = args[2];
 
-        if(!target.hasPlayedBefore()) {
+        if(!target.isOnline() && !target.hasPlayedBefore()) {
             sendMessage(sender, true, "&cThis player never logged in.");
             return;
         }

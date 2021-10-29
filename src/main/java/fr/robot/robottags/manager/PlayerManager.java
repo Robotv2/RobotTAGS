@@ -15,8 +15,8 @@ public class PlayerManager {
     public static String DEFAULT_TAG = "default";
 
     public static void init() {
-        ENABLED_DEFAULT_TAG = ConfigManager.getConfig().get().getBoolean("default-tag.enabled");
-        DEFAULT_TAG = ConfigManager.getConfig().get().getString("default-tag.tag");
+        ENABLED_DEFAULT_TAG = ConfigManager.getConfig().get().getBoolean("options.default-tag.enabled");
+        DEFAULT_TAG = ConfigManager.getConfig().get().getString("options.default-tag.tag");
     }
 
     public static void setTag(UUID playerUUID, String tagID) {

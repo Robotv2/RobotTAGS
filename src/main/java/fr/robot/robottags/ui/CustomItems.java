@@ -4,7 +4,6 @@ import fr.robot.robottags.Main;
 import fr.robot.robottags.manager.ConfigManager;
 import fr.robot.robottags.manager.MessageManager;
 import fr.robot.robottags.utility.ItemAPI;
-import fr.robot.robottags.utility.config.Config;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
