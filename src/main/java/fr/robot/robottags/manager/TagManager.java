@@ -6,19 +6,21 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class TagManager {
 
     private static Set<String> IDs = new HashSet<>();
-    private static HashMap<String, Tag> tags;
+    private static HashMap<String, Tag> tags = new HashMap<>();
 
     public static void init() {
         Main.getInstance().getLogger().info("Loading of tags...");
         ConfigurationSection section = ConfigManager.getTagConfig().get().getConfigurationSection("tags");
-        if(section != null)
-            IDs = section.getKeys(false);
-        tags = new HashMap<>();
-        getTagIds().forEach(tagID -> tags.put(tagID, getTag(tagID)));
+
+        if(section == null) return;
+
+        IDs = section.getKeys(false);
+        TagManager.getTagIds().forEach(tagID -> tags.put(tagID, getTag(tagID)));
     }
 
     public static boolean hasAccessTo(Player player, Tag tag) {
@@ -37,17 +39,15 @@ public class TagManager {
 
     public static Tag getTag(String ID) {
         Tag tag = tags.get(ID);
-        if(tag == null && exist(ID))
+        if(tag == null && exist(ID)) {
             tag = new Tag(ID);
+            tags.put(ID, tag);
+        }
         return tag;
     }
 
     public static List<Tag> getTags() {
-        List<Tag> result = new ArrayList<>();
-        for(String tagID : getTagIds()) {
-            result.add(getTag(tagID));
-        }
-        return result;
+        return TagManager.getTagIds().stream().map(TagManager::getTag).collect(Collectors.toList());
     }
 
     public static String getTagDisplaySafe(Player player) {
