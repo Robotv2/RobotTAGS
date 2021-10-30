@@ -83,7 +83,7 @@ public class ItemAPI {
 
     public static boolean hasKey(ItemStack item, String keyStr, PersistentDataType type) {
         NamespacedKey key = new NamespacedKey(Main.getInstance(), keyStr);
-        return item.getItemMeta().getPersistentDataContainer().has(key, type);
+        return item.getItemMeta() != null && item.getItemMeta().getPersistentDataContainer().has(key, type);
     }
 
     public static Object getKeyValue(ItemStack item, String keyStr, PersistentDataType type) {
