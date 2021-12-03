@@ -12,6 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import redis.clients.jedis.Jedis;
 
 import static fr.robot.robottags.utility.color.ColorAPI.colorize;
 
@@ -94,8 +95,7 @@ public final class Main extends JavaPlugin {
             } catch (NumberFormatException exception) {
                 if (!getDescription().getVersion().equalsIgnoreCase(response)) {
                     getLogger().info("");
-                    getLogger().info("Update: Outdated version detected " + getDescription().getVersion()
-                            + ", latest version is " + response
+                    getLogger().info("Update: Outdated version detected " + getDescription().getVersion() + ", latest version is " + response
                             + ", https://www.spigotmc.org/resources/robottags-hex-color-support-mysql-cross-server-and-gui-system.91885/");
                     getLogger().info("");
                 }
@@ -138,5 +138,12 @@ public final class Main extends JavaPlugin {
     public static void sendDebug(String message) {
         if(ConfigManager.Settings.WANT_DEBUG)
             Main.getInstance().getLogger().info(colorize("&7DEBUG &8- &f" + message));
+    }
+
+    public static boolean Validation(Object... objects) {
+        for(Object object : objects) {
+            if(object == null) return true;
+        }
+        return false;
     }
 }
