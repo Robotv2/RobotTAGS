@@ -15,7 +15,7 @@ public class TagManager {
     private static HashMap<String, Tag> tags = new HashMap<>();
 
     public static void init() {
-        Main.getInstance().getLogger().info("Loading of tags...");
+        Main.getInstance().getLogger().info("Loading of the tags...");
         ConfigurationSection section = ConfigManager.getTagConfig().get().getConfigurationSection("tags");
 
         if(section == null) return;
@@ -129,7 +129,7 @@ public class TagManager {
             config.get().set("tags." + ID + ".slot", SLOT);
 
             if(Objects.isNull(PERMISSION))
-                config.get().set("tags." + ID + ".permission", "robottags.tag" + ID);
+                config.get().set("tags." + ID + ".permission", "robottags.tag." + ID);
             else
                 config.get().set("tags." + ID + ".permission", PERMISSION);
 
