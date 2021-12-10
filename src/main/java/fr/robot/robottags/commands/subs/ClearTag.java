@@ -1,6 +1,7 @@
 package fr.robot.robottags.commands.subs;
 
 import fr.robot.robottags.Main;
+import fr.robot.robottags.commands.AbstractSub;
 import fr.robot.robottags.manager.MessageManager;
 import fr.robot.robottags.manager.PlayerManager;
 import org.bukkit.Bukkit;
@@ -9,7 +10,7 @@ import org.bukkit.command.CommandSender;
 
 import static fr.robot.robottags.Main.sendMessage;
 
-public class ClearTag {
+public class ClearTag implements AbstractSub {
 
     public void execute(CommandSender sender, String[] args) {
 

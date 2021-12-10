@@ -2,6 +2,7 @@ package fr.robot.robottags.utility;
 
 import org.bukkit.command.*;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +39,7 @@ public abstract class Command implements CommandExecutor, TabCompleter {
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, org.bukkit.command.@NotNull Command command, @NotNull String label, String[] args) {
         if(!(sender instanceof org.bukkit.entity.Player)) {
             if(!canConsoleExecute()) {
                 sender.sendMessage(colorize(getNotConsoleMessage()));

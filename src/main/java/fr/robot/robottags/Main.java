@@ -1,6 +1,7 @@
 package fr.robot.robottags;
 
 import fr.robot.robottags.commands.RobotTagsCommand;
+import fr.robot.robottags.importer.ImporterManager;
 import fr.robot.robottags.listeners.PlayerEvents;
 import fr.robot.robottags.manager.*;
 import fr.robot.robottags.ui.CustomItems;
@@ -12,7 +13,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import redis.clients.jedis.Jedis;
+
+import java.util.Objects;
 
 import static fr.robot.robottags.utility.color.ColorAPI.colorize;
 
@@ -39,6 +41,7 @@ public final class Main extends JavaPlugin {
         StorageManager.init();
         TagManager.init();
         PlayerManager.init();
+        ImporterManager.init();
 
         ItemStock.init();
         CustomItems.init();
@@ -111,13 +114,12 @@ public final class Main extends JavaPlugin {
     }
 
     public void initCommands() {
-        new RobotTagsCommand(this, "robottags");
+        Objects.requireNonNull(getCommand("robottags")).setExecutor(new RobotTagsCommand());
     }
 
     public void initGui() {
         GuiAPI.addMenu(new MenuGUI());
     }
-
 
 
     public static Main getInstance() {
@@ -135,9 +137,13 @@ public final class Main extends JavaPlugin {
             sender.sendMessage(colorize(message));
     }
 
-    public static void sendDebug(String message) {
+    public static void debug(String message) {
         if(ConfigManager.Settings.WANT_DEBUG)
             Main.getInstance().getLogger().info(colorize("&7DEBUG &8- &f" + message));
+    }
+
+    public static void log(String message) {
+        Main.getInstance().getLogger().info(colorize(message));
     }
 
     public static boolean Validation(Object... objects) {

@@ -1,6 +1,7 @@
 package fr.robot.robottags.commands.subs;
 
 import fr.robot.robottags.Main;
+import fr.robot.robottags.commands.AbstractSub;
 import fr.robot.robottags.manager.MessageManager;
 import fr.robot.robottags.manager.PlayerManager;
 import fr.robot.robottags.manager.TagManager;
@@ -10,8 +11,9 @@ import org.bukkit.command.CommandSender;
 
 import static fr.robot.robottags.Main.sendMessage;
 
-public class SetTag {
+public class SetTag implements AbstractSub {
 
+    @Override
     public void execute(CommandSender sender, String[] args) {
         if(!Main.hasPermission(sender, "robottags.set")) {
             MessageManager.Message.NO_PERMISSION.send(sender);

@@ -1,6 +1,5 @@
 package fr.robot.robottags.ui;
 
-import com.google.common.base.Strings;
 import fr.robot.robottags.manager.ConfigManager;
 import fr.robot.robottags.object.Tag;
 import fr.robot.robottags.utility.ItemAPI;
@@ -29,24 +28,12 @@ public class ItemStock {
     }
 
     private static void initItem(ItemStockType type) {
-        String id = "";
-
-        switch (type) {
-            case EMPTY_SLOTS:
-                id = "empty-slots";
-                break;
-            case CHANGE_ITEM:
-                id = "change-item";
-                break;
-            case NEXT_PAGE:
-                id = "next-page";
-                break;
-            case PREVIOUS_PAGE:
-                id = "previous-page";
-                break;
-        }
-
-        if(Strings.isNullOrEmpty(id)) return;
+        String id = switch (type) {
+            case EMPTY_SLOTS -> "empty-slots";
+            case CHANGE_ITEM -> "change-item";
+            case NEXT_PAGE -> "next-page";
+            case PREVIOUS_PAGE -> "previous-page";
+        };
 
         ItemAPI.ItemBuilder builder;
 

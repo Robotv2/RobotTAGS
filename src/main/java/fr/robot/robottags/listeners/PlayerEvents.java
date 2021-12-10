@@ -1,6 +1,9 @@
 package fr.robot.robottags.listeners;
 
-import fr.robot.robottags.manager.*;
+import fr.robot.robottags.manager.ConfigManager;
+import fr.robot.robottags.manager.PlayerManager;
+import fr.robot.robottags.manager.StorageManager;
+import fr.robot.robottags.manager.TagManager;
 import fr.robot.robottags.utility.TaskAPI;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,8 +20,7 @@ public class PlayerEvents implements Listener {
         Player player = e.getPlayer();
         TaskAPI.runTaskLaterAsync(() -> {
 
-            if(StorageManager.getMode() == StorageManager.DBMODE.MYSQL)
-                MysqlManager.createPlayer(player.getUniqueId());
+            StorageManager.getData().initPlayer(player.getUniqueId());
             PlayerManager.load(player);
 
         }, 10L);
