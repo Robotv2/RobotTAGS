@@ -1,50 +1,46 @@
 package fr.robot.robottags.manager;
 
 import com.google.common.base.Strings;
-import fr.robot.robottags.Main;
-
-import java.sql.SQLException;
-
-import static fr.robot.robottags.utility.color.ColorAPI.colorize;
+import fr.robot.robottags.data.AbstractData;
+import fr.robot.robottags.data.stock.MySQL;
+import fr.robot.robottags.data.stock.Yaml;
 
 public class StorageManager {
 
-    public enum DBMODE {
+    public enum DbMode {
         MYSQL, YML
     }
 
-    public static StorageManager.DBMODE mode = StorageManager.DBMODE.YML;
+    public static StorageManager.DbMode mode = StorageManager.DbMode.YML;
+    public static AbstractData data;
 
     public static void init() {
         String modeStr = ConfigManager.getConfig().get().getString("storage.mode");
-        if(!Strings.isNullOrEmpty(modeStr))
-            setMode(DBMODE.valueOf(modeStr.toUpperCase()));
-
-        if(mode == DBMODE.MYSQL) {
-            try {
-                Main.getInstance().getLogger().info(colorize("&7Trying to connect to the database..."));
-                MysqlManager.connect();
-                MysqlManager.createTable();
-                Main.getInstance().getLogger().info(colorize("&aSuccessfully connected !"));
-            } catch (ClassNotFoundException | SQLException e) {
-                Main.getInstance().getLogger().warning(colorize("&cAn error occurred while trying to connect to the database."));
-                Main.getInstance().getLogger().warning(colorize("&cPlease check your MySQL credentials in the configuration file."));
-                Main.getInstance().getLogger().warning(colorize("&cSwitching to YML storage mode by default."));
-                setMode(DBMODE.YML);
-            }
+        if(!Strings.isNullOrEmpty(modeStr)) {
+            DbMode mode = DbMode.valueOf(modeStr.toUpperCase());
+            setMode(mode);
         }
+
+        switch(getMode()) {
+            case YML -> data = new Yaml();
+            case MYSQL -> data = new MySQL();
+        }
+        getData().load();
     }
 
     public static void close() {
-        if(mode == DBMODE.MYSQL)
-            MysqlManager.disconnect();
+        getData().close();
     }
 
-    public static void setMode(DBMODE mode) {
+    public static void setMode(DbMode mode) {
         StorageManager.mode = mode;
     }
 
-    public static DBMODE getMode() {
+    public static DbMode getMode() {
         return mode;
+    }
+
+    public static AbstractData getData() {
+        return data;
     }
 }
