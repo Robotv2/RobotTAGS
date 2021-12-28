@@ -25,6 +25,7 @@ public class StorageManager {
             case YML -> data = new Yaml();
             case MYSQL -> data = new MySQL();
         }
+
         getData().load();
     }
 

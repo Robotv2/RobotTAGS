@@ -21,11 +21,10 @@ public class MySQL implements AbstractData {
     @Override
     public void load() {
         try {
-            log("&7Trying to connect to the database...");
+            log("&fTrying to connect to the database...");
             connect();
             createTable();
             log("&aSuccessfully connected !");
-            autoReconnect();
         } catch (ClassNotFoundException | SQLException e) {
             log("&cAn error occurred while trying to connect to the database.");
             log("&cPlease check your MySQL credentials in the configuration file.");
@@ -107,8 +106,13 @@ public class MySQL implements AbstractData {
             String password = ConfigManager.getConfig().get().getString("storage.mysql-credentials.password");
 
             String ssl = String.valueOf(ConfigManager.getConfig().get().getBoolean("storage.mysql-credentials.useSSL"));
+            String autoReconnectStr = ConfigManager.getConfig().get().getString("storage.mysql.auto-reconnect");
+            boolean autoReconnect = autoReconnectStr == null || Boolean.parseBoolean(autoReconnectStr);
 
-            connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database + "?useSSL=" + ssl, username, password);
+            connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database +
+                    "?useSSL=" + ssl +
+                    "?autoReconnect=" + autoReconnect,
+                    username, password);
         }
     }
 
